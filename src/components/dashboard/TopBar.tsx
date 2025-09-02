@@ -1,6 +1,5 @@
 "use client";
 
-// import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
@@ -52,13 +51,13 @@ export const TopBar = () => {
                 {isPending ? (
                   <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
                 ) : (
-                  <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium">
                     {session?.user?.name ? getInitials(session.user.name) : "U"}
                   </div>
                 )}
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuContent align="end" className="w-40">
               <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -66,8 +65,6 @@ export const TopBar = () => {
               >
                 Perfil
               </DropdownMenuItem>
-              <DropdownMenuItem>Configuración</DropdownMenuItem>
-              <DropdownMenuItem>Facturación</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={handleSignOut}

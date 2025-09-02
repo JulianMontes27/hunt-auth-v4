@@ -12,7 +12,19 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { User } from "better-auth";
+
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string | null;
+  phoneNumber: string | null;
+  phoneNumberVerified: boolean | null;
+  createdAt: Date;
+  updatedAt: Date;
+  isAnonymous: boolean | null;
+};
 
 const AVATAR_GALLERY_UPLOADTHING = [
   "https://tprbcin26j.ufs.sh/f/zkshbEfecNgAw6SH2xyK6V3UMhoQNBSjOW24tfwXxn8CFzYE",
@@ -25,7 +37,7 @@ const AVATAR_GALLERY_UPLOADTHING = [
   "https://db.hunt-tickets.com/storage/v1/object/public/default/avatars/avatar6.jpg",
 ];
 
-const CustomizableAvatar = ({ user }: { user: any }) => {
+const CustomizableAvatar = ({ user }: { user: User }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(
