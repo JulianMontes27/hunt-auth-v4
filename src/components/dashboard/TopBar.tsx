@@ -18,6 +18,14 @@ export const TopBar = () => {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
 
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase())
+      .join("")
+      .slice(0, 2); // Limit to 2 characters
+  };
+
   const handleSignOut = async () => {
     await authClient.signOut({
       fetchOptions: {
@@ -44,20 +52,10 @@ export const TopBar = () => {
                 {isPending ? (
                   <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
                 ) : (
-                  // <Image
-                  //   src={session?.user.}
-                  //   alt={session?.user?.name || "Username"}
-                  //   width={32}
-                  //   height={32}
-                  //   className="w-8 h-8 rounded-full"
-                  // />
-                  <></>
+                  <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium">
+                    {session?.user?.name ? getInitials(session.user.name) : "U"}
+                  </div>
                 )}
-                <span className="hidden sm:block text-sm font-medium text-foreground truncate max-w-[120px]">
-                  {isPending
-                    ? "Cargando..."
-                    : session?.user?.name || "Invitado"}
-                </span>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">

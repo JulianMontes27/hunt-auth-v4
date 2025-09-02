@@ -102,18 +102,20 @@ export default async function ProfilePage() {
                     <label className="text-sm font-medium text-[#A0A0A0]">
                       Nombre
                     </label>
-                    <p className="text-[#7A7A7A] mt-1">{user.name}</p>
+                    <p className="text-[#7A7A7A] mt-1 break-words">
+                      {user.name}
+                    </p>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-[#A0A0A0]">
                       Correo Electrónico
                     </label>
-                    <div className="flex items-center gap-2 mt-1">
-                      <p className="text-[#7A7A7A]">{user.email}</p>
+                    <div className="flex items-center gap-2 mt-1 min-w-0">
+                      <p className="text-[#7A7A7A] break-all">{user.email}</p>
                       {user.emailVerified && (
                         <Badge
                           variant="secondary"
-                          className="bg-green-100 text-green-800 text-xs"
+                          className="bg-green-100 text-green-800 text-xs flex-shrink-0"
                         >
                           <Shield className="h-3 w-3 mr-1" />
                           Verificado
@@ -121,11 +123,11 @@ export default async function ProfilePage() {
                       )}
                     </div>
                   </div>
-                  <div>
+                  <div className="md:col-span-2">
                     <label className="text-sm font-medium text-[#A0A0A0]">
                       ID de Usuario
                     </label>
-                    <p className="text-[#7A7A7A] mt-1 font-mono text-sm">
+                    <p className="text-[#7A7A7A] mt-1 font-mono text-sm break-all">
                       {user.id}
                     </p>
                   </div>
@@ -167,14 +169,16 @@ export default async function ProfilePage() {
                     <label className="text-sm font-medium text-[#A0A0A0]">
                       Número de Teléfono
                     </label>
-                    <div className="flex items-center gap-2 mt-1">
+                    <div className="flex items-center gap-2 mt-1 min-w-0">
                       {user.phoneNumber ? (
                         <>
-                          <p className="text-[#7A7A7A]">{user.phoneNumber}</p>
+                          <p className="text-[#7A7A7A] break-all">
+                            {user.phoneNumber}
+                          </p>
                           {user.phoneNumberVerified && (
                             <Badge
                               variant="secondary"
-                              className="bg-green-100 text-green-800 text-xs"
+                              className="bg-green-100 text-green-800 text-xs flex-shrink-0"
                             >
                               <Shield className="h-3 w-3 mr-1" />
                               Verificado
@@ -208,24 +212,24 @@ export default async function ProfilePage() {
                 {accounts.map((account) => (
                   <div
                     key={account.id}
-                    className="flex items-center justify-between p-3 rounded-lg border border-[#424242] bg-[#242424]"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 rounded-lg border border-[#424242] bg-[#242424] gap-3"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded bg-[#1d1d1d] flex items-center justify-center">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="h-8 w-8 rounded bg-[#1d1d1d] flex items-center justify-center flex-shrink-0">
                         <span className="text-xs font-medium text-[#7A7A7A]">
                           {account.providerId.charAt(0).toUpperCase()}
                         </span>
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <p className="font-medium text-[#7A7A7A] capitalize">
                           {account.providerId}
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground break-all">
                           ID de Cuenta: {account.accountId}
                         </p>
                       </div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-left sm:text-right flex-shrink-0">
                       <p className="text-sm text-muted-foreground">
                         Conectado{" "}
                         {new Date(account.createdAt).toLocaleDateString(
@@ -287,29 +291,29 @@ export default async function ProfilePage() {
                 {sessions.map((session) => (
                   <div
                     key={session.id}
-                    className="flex items-center justify-between p-3 rounded-lg border border-[#424242] bg-[#242424]"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 rounded-lg border border-[#424242] bg-[#242424] gap-3"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded bg-[#1d1d1d] flex items-center justify-center">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="h-8 w-8 rounded bg-[#1d1d1d] flex items-center justify-center flex-shrink-0">
                         <MapPin className="h-4 w-4 text-[#7A7A7A]" />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <p className="font-medium text-[#7A7A7A]">
                           {session.userAgent?.includes("Mobile")
                             ? "Dispositivo Móvil"
                             : "Escritorio"}
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground break-words">
                           IP: {session.ipAddress || "Desconocido"}
                         </p>
                         {session.userAgent && (
-                          <p className="text-xs text-muted-foreground truncate max-w-md">
+                          <p className="text-xs text-muted-foreground break-all">
                             {session.userAgent}
                           </p>
                         )}
                       </div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-left sm:text-right flex-shrink-0">
                       <p className="text-sm text-muted-foreground">
                         Creado{" "}
                         {new Date(session.createdAt).toLocaleDateString(

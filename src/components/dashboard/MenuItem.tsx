@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@/components/shared/Icon";
@@ -32,10 +33,9 @@ const MenuItem = ({ item }: MenuItemProps) => {
     <>
       <Icon
         name={item.icon}
-        className={`w-5 h-5 flex-shrink-0 ${
-          isActive && mounted ? "text-white" : ""
-        }`}
+        className={`w-5 h-5 flex-shrink-0 ${isActive && mounted ? "text-white" : ""}`}
       />
+      <span className="ml-3">{item.label}</span>
     </>
   );
 
@@ -46,10 +46,10 @@ const MenuItem = ({ item }: MenuItemProps) => {
           href={item.href}
           className={`w-full flex items-center px-4 py-2 rounded-lg transition-colors 
            ${
-            isActive
-              ? "text-white bg-sidebar-primary-foreground"
-              : "text-[#7A7A7A] hover:text-white hover:bg-sidebar-primary-foreground"
-          }`}
+             isActive
+               ? "text-white bg-sidebar-primary-foreground"
+               : "text-[#7A7A7A] hover:text-white hover:bg-sidebar-primary-foreground"
+           }`}
         >
           {content}
         </Link>
@@ -60,20 +60,17 @@ const MenuItem = ({ item }: MenuItemProps) => {
             isActive
               ? "text-white bg-sidebar-primary-foreground"
               : "text-[#7A7A7A] hover:text-white hover:bg-sidebar-primary-foreground"
-          }`}        >
+          }`}
+        >
           {content}
         </button>
       )}
 
-      
       {hasSubmenu && isOpen && (
         <div className="ml-4 mt-1 space-y-1">
           {item.submenu &&
             item.submenu.map((subItem) => (
-              <MenuItem
-                key={subItem.label}
-                item={subItem}
-              />
+              <MenuItem key={subItem.label} item={subItem} />
             ))}
         </div>
       )}
