@@ -1,0 +1,395 @@
+# Examples & Use Cases 🚀
+
+Discover what you can build with Qmatic Canvas through these real-world examples and step-by-step tutorials.
+
+## 📱 Landing Page Builder
+
+Create stunning landing pages in minutes with our drag-and-drop interface.
+
+### Example: SaaS Product Landing Page
+
+```tsx
+// Generated React code from Qmatic Canvas
+export function SaaSLanding() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <header className="px-6 py-4 flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-blue-600 rounded-lg"></div>
+          <span className="font-bold text-xl">ProductName</span>
+        </div>
+        <nav className="hidden md:flex gap-6">
+          <a href="#features" className="text-gray-600 hover:text-gray-900">Features</a>
+          <a href="#pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
+          <a href="#contact" className="text-gray-600 hover:text-gray-900">Contact</a>
+        </nav>
+        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+          Get Started
+        </button>
+      </header>
+      
+      <main className="px-6 py-20 text-center">
+        <h1 className="text-5xl font-bold mb-6 text-gray-900">
+          Build Better Products
+          <span className="text-blue-600 block">10x Faster</span>
+        </h1>
+        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          Our platform helps teams ship products faster with AI-powered design tools 
+          and collaborative workflows that scale with your business.
+        </p>
+        <div className="flex gap-4 justify-center">
+          <button className="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg hover:bg-blue-700">
+            Start Free Trial
+          </button>
+          <button className="bg-white text-gray-900 px-8 py-3 rounded-lg text-lg border border-gray-300 hover:bg-gray-50">
+            Watch Demo
+          </button>
+        </div>
+      </main>
+    </div>
+  )
+}
+```
+
+**Key Features Used:**
+- Gradient backgrounds
+- Responsive navigation
+- Typography hierarchy
+- Call-to-action buttons
+- Flex layouts
+
+---
+
+## 🏪 E-commerce Product Cards
+
+Design beautiful product showcases for online stores.
+
+### Example: Fashion Store Product Grid
+
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  <div className="border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <div className="aspect-square bg-gray-100 flex items-center justify-center">
+      <span className="text-gray-400 text-4xl">👕</span>
+    </div>
+    <div className="p-4">
+      <h3 className="font-semibold text-lg mb-2">Premium Cotton Tee</h3>
+      <p className="text-gray-600 text-sm mb-3">Comfortable, breathable cotton in 5 colors</p>
+      <div className="flex justify-between items-center">
+        <span className="text-xl font-bold text-blue-600">$29.99</span>
+        <button className="bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div className="border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <div className="aspect-square bg-gray-100 flex items-center justify-center">
+      <span className="text-gray-400 text-4xl">👖</span>
+    </div>
+    <div className="p-4">
+      <h3 className="font-semibold text-lg mb-2">Designer Jeans</h3>
+      <p className="text-gray-600 text-sm mb-3">Premium denim with modern fit</p>
+      <div className="flex justify-between items-center">
+        <span className="text-xl font-bold text-blue-600">$89.99</span>
+        <button className="bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div className="border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <div className="aspect-square bg-gray-100 flex items-center justify-center">
+      <span className="text-gray-400 text-4xl">👟</span>
+    </div>
+    <div className="p-4">
+      <h3 className="font-semibold text-lg mb-2">Sport Sneakers</h3>
+      <p className="text-gray-600 text-sm mb-3">Lightweight running shoes</p>
+      <div className="flex justify-between items-center">
+        <span className="text-xl font-bold text-blue-600">$119.99</span>
+        <button className="bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+**Components Used:**
+- Image placeholders with aspect ratios
+- Card containers with hover effects
+- Price display with emphasis
+- Action buttons with states
+
+---
+
+## 📊 Dashboard Interfaces
+
+Build comprehensive admin dashboards and analytics views.
+
+### Example: Analytics Dashboard
+
+```tsx
+// Stats Grid Example
+const statsData = [
+  { label: "Total Users", value: "12,543", change: "+12%", trend: "up" },
+  { label: "Revenue", value: "$45,231", change: "+8%", trend: "up" },
+  { label: "Conversion Rate", value: "3.24%", change: "-2%", trend: "down" },
+  { label: "Active Sessions", value: "1,234", change: "+15%", trend: "up" },
+]
+
+export function DashboardStats() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {statsData.map((stat, index) => (
+        <div key={index} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-sm text-gray-600 mb-1">{stat.label}</p>
+              <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+            </div>
+            <span className={`text-sm px-2 py-1 rounded ${
+              stat.trend === 'up' 
+                ? 'bg-green-100 text-green-800' 
+                : 'bg-red-100 text-red-800'
+            }`}>
+              {stat.change}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
+**Dashboard Features:**
+- ✅ Metric cards with trend indicators
+- ✅ Responsive grid layouts
+- ✅ Chart components (coming soon)
+- ✅ Data tables with sorting
+- ✅ Filter controls
+
+---
+
+## 📝 Form Builders
+
+Create complex forms with validation and smart layouts.
+
+### Example: Contact Form with Validation
+
+<div className="max-w-md mx-auto my-8 p-6 border border-gray-200 rounded-lg bg-white">
+  <h3 className="text-xl font-semibold mb-4">Get in Touch</h3>
+  <form className="space-y-4">
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+      <input 
+        type="text" 
+        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        placeholder="John Doe"
+      />
+    </div>
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+      <input 
+        type="email" 
+        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        placeholder="john@example.com"
+      />
+    </div>
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+      <textarea 
+        rows={4}
+        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        placeholder="Tell us about your project..."
+      />
+    </div>
+    <button 
+      type="submit"
+      className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+    >
+      Send Message
+    </button>
+  </form>
+</div>
+
+**Form Features:**
+- Input validation states
+- Focus management
+- Responsive layouts
+- Accessibility support
+- Custom styling options
+
+---
+
+## 🎯 Step-by-Step Tutorials
+
+### Tutorial 1: Building a Blog Card Component
+
+1. **Start with Container**
+   - Drag a Card component onto the canvas
+   - Set width to 400px, add shadow and border radius
+
+2. **Add Image Header**
+   - Drag Image component to top of card
+   - Set aspect ratio to 16:9
+   - Add placeholder or demo image URL
+
+3. **Create Content Area**
+   - Add Container for padding
+   - Insert Heading component for title
+   - Add Text component for excerpt
+
+4. **Style the Elements**
+   - Set typography (font size, weight, color)
+   - Adjust spacing between elements
+   - Add hover effects
+
+5. **Add Interactions**
+   - Link the entire card to blog post
+   - Add button for "Read More"
+   - Configure hover animations
+
+### Tutorial 2: Responsive Navigation Menu
+
+1. **Desktop Layout**
+   - Create horizontal flex container
+   - Add logo on the left
+   - Navigation links in center
+   - CTA button on right
+
+2. **Mobile Adaptation**
+   - Hide desktop nav on mobile
+   - Add hamburger menu button
+   - Create overlay/drawer for mobile menu
+   - Stack navigation vertically
+
+3. **Interactive States**
+   - Active link highlighting
+   - Hover effects on menu items
+   - Smooth transitions
+   - Keyboard navigation support
+
+---
+
+## 🎨 Design System Examples
+
+### Color Palettes
+
+<div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-6">
+  <div className="space-y-2">
+    <div className="h-16 bg-blue-500 rounded-lg"></div>
+    <p className="text-sm font-medium">Primary Blue</p>
+    <p className="text-xs text-gray-500">#3B82F6</p>
+  </div>
+  <div className="space-y-2">
+    <div className="h-16 bg-green-500 rounded-lg"></div>
+    <p className="text-sm font-medium">Success Green</p>
+    <p className="text-xs text-gray-500">#10B981</p>
+  </div>
+  <div className="space-y-2">
+    <div className="h-16 bg-yellow-500 rounded-lg"></div>
+    <p className="text-sm font-medium">Warning Yellow</p>
+    <p className="text-xs text-gray-500">#F59E0B</p>
+  </div>
+  <div className="space-y-2">
+    <div className="h-16 bg-red-500 rounded-lg"></div>
+    <p className="text-sm font-medium">Danger Red</p>
+    <p className="text-xs text-gray-500">#EF4444</p>
+  </div>
+</div>
+
+### Typography Scale
+
+<div className="space-y-4 my-6">
+  <div className="text-4xl font-bold">Heading 1 - Bold, 36px</div>
+  <div className="text-3xl font-semibold">Heading 2 - Semibold, 30px</div>
+  <div className="text-2xl font-medium">Heading 3 - Medium, 24px</div>
+  <div className="text-xl">Heading 4 - Regular, 20px</div>
+  <div className="text-base">Body Text - Regular, 16px</div>
+  <div className="text-sm text-gray-600">Small Text - Regular, 14px</div>
+</div>
+
+---
+
+## 🛠️ Integration Examples
+
+### Next.js Integration
+
+```tsx
+// pages/design/[id].tsx
+import { CanvasRenderer } from '@/components/canvas-renderer'
+import { getDesign } from '@/lib/designs'
+
+export default function DesignPage({ design }) {
+  return (
+    <div className="min-h-screen">
+      <CanvasRenderer 
+        components={design.components}
+        responsive={true}
+        interactive={true}
+      />
+    </div>
+  )
+}
+
+export async function getServerSideProps({ params }) {
+  const design = await getDesign(params.id)
+  return { props: { design } }
+}
+```
+
+### API Usage
+
+```javascript
+// Export design as JSON
+const exportDesign = async (designId) => {
+  const response = await fetch(`/api/designs/${designId}/export`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ format: 'react' })
+  })
+  
+  const { code, components } = await response.json()
+  return { code, components }
+}
+
+// Import existing design
+const importDesign = async (designData) => {
+  const response = await fetch('/api/designs/import', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(designData)
+  })
+  
+  return response.json()
+}
+```
+
+---
+
+## 💡 Pro Tips
+
+### Performance Optimization
+- Use image optimization for better loading times
+- Implement lazy loading for component-heavy designs
+- Minimize CSS bundle size with Tailwind purging
+- Use React.memo for expensive component renders
+
+### Design Best Practices
+- Maintain consistent spacing using a 8px grid system
+- Limit color palette to 3-5 main colors
+- Use typography hierarchy effectively
+- Ensure sufficient color contrast for accessibility
+
+### Workflow Tips
+- Save frequently used components as templates
+- Use component variants for different states
+- Leverage the history system for experimental changes
+- Test responsive breakpoints regularly
+
+---
+
+Ready to build your own examples? Head over to the [Canvas Editor](/dashboard/surface-editor) and start creating!

@@ -1,0 +1,554 @@
+# Contributing to Qmatic Canvas 🤝
+
+We're thrilled you're interested in contributing! This guide will help you get started with contributing to Qmatic Canvas.
+
+## 🌟 Ways to Contribute
+
+There are many ways to contribute to Qmatic Canvas:
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+  <div className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg">
+    <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+      🐛 Report Bugs
+    </h3>
+    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      Found a bug? Help us improve by reporting issues with detailed steps to reproduce.
+    </p>
+    <a href="https://github.com/your-username/qmatic_canvas/issues/new?template=bug_report.md" className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+      Report Bug →
+    </a>
+  </div>
+
+  <div className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg">
+    <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+      💡 Suggest Features
+    </h3>
+    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      Have an idea for a new feature? We'd love to hear about it and discuss implementation.
+    </p>
+    <a href="https://github.com/your-username/qmatic_canvas/issues/new?template=feature_request.md" className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+      Request Feature →
+    </a>
+  </div>
+
+  <div className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg">
+    <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+      💻 Code Contributions
+    </h3>
+    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      Submit pull requests for bug fixes, features, or improvements to the codebase.
+    </p>
+    <a href="#development-setup" className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+      Start Coding →
+    </a>
+  </div>
+
+  <div className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg">
+    <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+      📚 Documentation
+    </h3>
+    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      Help improve our docs, write tutorials, or create examples for the community.
+    </p>
+    <a href="#documentation-contributions" className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+      Improve Docs →
+    </a>
+  </div>
+</div>
+
+---
+
+## 🚀 Development Setup
+
+### Prerequisites
+
+Make sure you have these tools installed:
+
+- **Node.js 18+** - [Download here](https://nodejs.org/)
+- **pnpm** - Install with `npm install -g pnpm`
+- **Git** - [Download here](https://git-scm.com/)
+- **PostgreSQL** - We recommend [Neon](https://neon.tech) for development
+
+### Getting Started
+
+1. **Fork and Clone**
+   ```bash
+   # Fork the repository on GitHub
+   # Then clone your fork
+   git clone https://github.com/YOUR_USERNAME/qmatic_canvas.git
+   cd qmatic_canvas
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   pnpm install
+   ```
+
+3. **Environment Setup**
+   ```bash
+   # Copy environment template
+   cp .env.example .env.local
+   
+   # Add your environment variables
+   DATABASE_URL=postgresql://username:password@localhost:5432/qmatic_canvas_dev
+   BETTER_AUTH_SECRET=your-super-secret-development-key
+   BETTER_AUTH_URL=http://localhost:3000
+   # ... other variables
+   ```
+
+4. **Database Setup**
+   ```bash
+   # Generate schema
+   pnpm run db:generate
+   
+   # Push to database
+   pnpm run db:push
+   
+   # Optional: Open database studio
+   pnpm run db:studio
+   ```
+
+5. **Start Development**
+   ```bash
+   pnpm run dev
+   ```
+
+   Your development server will be running at `http://localhost:3000`
+
+---
+
+## 🏗️ Project Structure
+
+Understanding the codebase structure will help you contribute effectively:
+
+```
+qmatic_canvas/
+├── 📁 src/
+│   ├── 📁 app/                 # Next.js App Router pages
+│   │   ├── 📁 (auth)/          # Authentication pages
+│   │   ├── 📁 (main)/          # Main app pages  
+│   │   ├── 📁 dashboard/       # Dashboard pages
+│   │   └── 📁 docs/            # Documentation pages
+│   ├── 📁 components/          # React components
+│   │   ├── 📁 dashboard/       # Dashboard-specific components
+│   │   │   └── 📁 canvas/      # Canvas editor components
+│   │   ├── 📁 shared/          # Shared components
+│   │   └── 📁 ui/              # UI components (shadcn/ui)
+│   ├── 📁 lib/                 # Utility functions
+│   ├── 📁 hooks/               # Custom React hooks
+│   ├── 📁 db/                  # Database schema and connection
+│   └── 📁 server/              # Server-side utilities
+├── 📁 docs/                    # Documentation content (MDX)
+├── 📁 styles/                  # Global styles and CSS
+└── 📁 public/                  # Static assets
+```
+
+### Key Components
+
+- **Canvas System** (`src/components/dashboard/canvas/`)
+  - `canvas-context.tsx` - State management
+  - `canvas-area.tsx` - Main drawing area
+  - `component-library.tsx` - Draggable components
+  - `properties-panel.tsx` - Component editor
+
+- **Authentication** (`src/lib/auth.ts`)
+  - Better Auth configuration
+  - Social provider setup
+  - Session management
+
+- **Database** (`src/db/`)
+  - Drizzle ORM schema
+  - Database connection
+  - Migration files
+
+---
+
+## 🔧 Development Guidelines
+
+### Code Style
+
+We use ESLint and Prettier for consistent code formatting:
+
+```bash
+# Check linting
+pnpm run lint
+
+# Fix auto-fixable issues
+pnpm run lint:fix
+
+# Format with Prettier (usually handled by your editor)
+pnpm run format
+```
+
+### TypeScript
+
+- Use strict TypeScript settings
+- Define interfaces for all component props
+- Avoid `any` types - use proper typing
+- Export types from dedicated files when shared
+
+### React Patterns
+
+```tsx
+// ✅ Good: Functional components with TypeScript
+interface ButtonProps {
+  variant: 'primary' | 'secondary';
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
+export function Button({ variant, onClick, children }: ButtonProps) {
+  return (
+    <button 
+      className={`btn btn-${variant}`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+}
+
+// ❌ Avoid: Class components and inline styles
+export class Button extends React.Component {
+  render() {
+    return <button style={{ color: 'red' }}>Click me</button>;
+  }
+}
+```
+
+### Canvas Development
+
+When working on canvas features:
+
+- **State Management**: Use the canvas context for all state
+- **Performance**: Optimize for large numbers of components
+- **Accessibility**: Ensure keyboard navigation works
+- **Mobile**: Test touch interactions thoroughly
+
+```tsx
+// Example: Adding a new canvas action
+type CanvasAction = 
+  | { type: 'ADD_COMPONENT'; component: CanvasComponent }
+  | { type: 'YOUR_NEW_ACTION'; payload: YourPayloadType }
+
+function canvasReducer(state: CanvasState, action: CanvasAction): CanvasState {
+  switch (action.type) {
+    case 'YOUR_NEW_ACTION':
+      return {
+        ...state,
+        // Your state updates here
+      };
+    default:
+      return state;
+  }
+}
+```
+
+---
+
+## 🧪 Testing
+
+We use a comprehensive testing strategy:
+
+### Unit Tests
+```bash
+# Run all tests
+pnpm test
+
+# Run tests in watch mode
+pnpm test:watch
+
+# Run tests with coverage
+pnpm test:coverage
+```
+
+### Writing Tests
+
+```tsx
+// Example: Component test
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Button } from './Button';
+
+describe('Button', () => {
+  it('calls onClick when clicked', () => {
+    const handleClick = jest.fn();
+    render(<Button onClick={handleClick}>Click me</Button>);
+    
+    fireEvent.click(screen.getByText('Click me'));
+    
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+});
+```
+
+### Integration Tests
+
+For canvas functionality, we test complete user workflows:
+
+```tsx
+// Example: Canvas integration test
+import { CanvasProvider } from '@/components/dashboard/canvas/canvas-context';
+import { CanvasDesigner } from '@/components/dashboard/canvas/canvas-designer';
+
+describe('Canvas Integration', () => {
+  it('allows dragging components onto canvas', async () => {
+    render(
+      <CanvasProvider>
+        <CanvasDesigner />
+      </CanvasProvider>
+    );
+    
+    // Test drag and drop functionality
+    // Test component creation
+    // Test properties panel updates
+  });
+});
+```
+
+---
+
+## 📚 Documentation Contributions
+
+### Writing Documentation
+
+Our documentation uses MDX (Markdown + JSX):
+
+```mdx
+# Page Title
+
+Regular markdown content...
+
+<div className="bg-blue-50 p-4 rounded-lg">
+  <p>Custom JSX components work too!</p>
+</div>
+
+## Code Examples
+
+```tsx
+// TypeScript code with syntax highlighting
+export function Example() {
+  return <div>Hello World</div>;
+}
+```
+
+### Documentation Guidelines
+
+- **Clear Headings**: Use descriptive, searchable headings
+- **Code Examples**: Include working code snippets
+- **Screenshots**: Add visuals for UI-related docs
+- **Links**: Cross-reference related sections
+- **Accessibility**: Use proper heading hierarchy
+
+### Running Docs Locally
+
+```bash
+# Start development server (includes docs)
+pnpm run dev
+
+# Docs will be available at http://localhost:3000/docs
+```
+
+---
+
+## 🎯 Pull Request Process
+
+### Before Submitting
+
+1. **Create an Issue**: Discuss major changes before coding
+2. **Fork & Branch**: Create a feature branch from `main`
+3. **Code**: Follow our development guidelines
+4. **Test**: Ensure all tests pass
+5. **Document**: Update docs if needed
+
+### Pull Request Checklist
+
+- [ ] **Tests pass**: `pnpm test`
+- [ ] **Linting passes**: `pnpm run lint`
+- [ ] **TypeScript compiles**: `pnpm run build`
+- [ ] **Documentation updated**: If adding features
+- [ ] **Changeset added**: For notable changes
+
+### Creating a Pull Request
+
+```bash
+# Create feature branch
+git checkout -b feature/amazing-new-feature
+
+# Make your changes
+git add .
+git commit -m "feat: add amazing new feature"
+
+# Push to your fork
+git push origin feature/amazing-new-feature
+
+# Create PR on GitHub
+```
+
+### PR Template
+
+When creating a PR, please include:
+
+```markdown
+## Description
+Brief description of changes
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature  
+- [ ] Breaking change
+- [ ] Documentation update
+
+## Testing
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
+- [ ] Manual testing completed
+
+## Screenshots
+Include screenshots for UI changes
+
+## Checklist
+- [ ] Code follows style guidelines
+- [ ] Self-review completed
+- [ ] Documentation updated
+- [ ] Tests added and passing
+```
+
+---
+
+## 🐛 Bug Report Guidelines
+
+### Before Reporting
+
+1. **Search existing issues** to avoid duplicates
+2. **Try latest version** to see if it's already fixed
+3. **Minimal reproduction** helps us debug faster
+
+### Bug Report Template
+
+```markdown
+## Bug Description
+Clear description of the bug
+
+## Steps to Reproduce
+1. Go to '...'
+2. Click on '...'
+3. Scroll down to '...'
+4. See error
+
+## Expected Behavior
+What should have happened
+
+## Actual Behavior  
+What actually happened
+
+## Environment
+- OS: [e.g. macOS 12.0]
+- Browser: [e.g. Chrome 96.0]
+- Version: [e.g. 2.1.0]
+
+## Additional Context
+Screenshots, error logs, etc.
+```
+
+---
+
+## 💡 Feature Request Guidelines
+
+### Before Requesting
+
+1. **Check roadmap** to see if it's already planned
+2. **Search issues** for similar requests
+3. **Consider the use case** and user benefit
+
+### Feature Request Template
+
+```markdown
+## Feature Description
+Clear description of the proposed feature
+
+## Problem Statement
+What problem does this solve?
+
+## Proposed Solution
+How should this feature work?
+
+## Alternatives Considered
+Other approaches you've thought about
+
+## Use Cases
+Real-world scenarios where this would be helpful
+
+## Additional Context
+Mockups, examples, references
+```
+
+---
+
+## 🏆 Recognition
+
+Contributors are recognized in several ways:
+
+- **Contributors Page**: Listed on our website
+- **Release Notes**: Mentioned in changelog
+- **Discord Role**: Special contributor role
+- **Swag**: Stickers and merchandise for major contributions
+
+### Hall of Fame
+
+Top contributors get special recognition:
+
+- 🥇 **Gold Contributors**: 50+ merged PRs
+- 🥈 **Silver Contributors**: 20+ merged PRs  
+- 🥉 **Bronze Contributors**: 10+ merged PRs
+- ✨ **First-time Contributors**: Your first merged PR
+
+---
+
+## 📞 Getting Help
+
+Need help while contributing?
+
+- 💬 **Discord**: Join our contributor channel
+- 📧 **Email**: contributors@qmaticcanvas.com
+- 🐛 **GitHub Issues**: For technical questions
+- 📖 **Discussions**: For general questions
+
+### Office Hours
+
+Our maintainers host weekly office hours:
+
+- **When**: Fridays 2-3 PM EST
+- **Where**: Discord voice channel
+- **What**: Q&A, code reviews, pair programming
+
+---
+
+## 📜 Code of Conduct
+
+We're committed to providing a welcoming and inclusive experience for everyone. Please read our [Code of Conduct](https://github.com/your-username/qmatic_canvas/blob/main/CODE_OF_CONDUCT.md).
+
+### Quick Summary
+
+- **Be respectful** and inclusive
+- **Be collaborative** and helpful
+- **Be constructive** in feedback
+- **Be patient** with newcomers
+
+---
+
+## 🎉 Thank You!
+
+Every contribution matters, whether it's code, documentation, bug reports, or community support. Thank you for helping make Qmatic Canvas better for everyone!
+
+<div className="text-center my-12">
+  <div className="text-4xl mb-4">🙏</div>
+  <p className="text-lg font-medium">Ready to contribute?</p>
+  <div className="flex gap-4 justify-center mt-6">
+    <a href="https://github.com/your-username/qmatic_canvas/fork" className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+      Fork Repository
+    </a>
+    <a href="https://discord.gg/your-discord" className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+      Join Discord
+    </a>
+  </div>
+</div>

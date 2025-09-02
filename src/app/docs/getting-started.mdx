@@ -1,0 +1,93 @@
+## Getting Started
+
+This guide will help you set up and start using Qmatic Canvas for your visual design projects.
+
+#### Prerequisites
+
+Before you begin, make sure you have:
+
+- Node.js 18 or later
+- pnpm package manager
+- A PostgreSQL database (we recommend Neon)
+
+#### Installation
+
+1. Clone the repository:
+
+```bash
+git clone <your-repo-url>
+cd qmatic_canvas
+```
+
+2. Install dependencies:
+
+```bash
+pnpm install
+```
+
+3. Set up your environment variables by creating a `.env.local` file:
+
+```bash
+DATABASE_URL=          # Your Neon PostgreSQL connection
+BETTER_AUTH_SECRET=    # Better Auth secret key
+BETTER_AUTH_URL=       # Base URL (http://localhost:3000 for dev)
+GOOGLE_CLIENT_ID=      # Google OAuth credentials
+GOOGLE_CLIENT_SECRET=
+GITHUB_CLIENT_ID=      # GitHub OAuth credentials
+GITHUB_CLIENT_SECRET=
+RESEND_API_KEY=        # Email service for magic links
+```
+
+#### Database Setup
+
+1. Generate the Better Auth schema:
+
+```bash
+npx @better-auth/cli generate
+```
+
+2. Copy the generated auth-schema.ts content to your Drizzle schema in `src/db/schema.ts`
+
+3. Generate and push the database schema:
+
+```bash
+pnpm run db:generate
+pnpm run db:push
+```
+
+#### Development
+
+Start the development server:
+
+```bash
+pnpm run dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000) to see your application running.
+
+#### First Steps
+
+1. **Sign In**: Create an account or sign in with Google/GitHub
+2. **Access Dashboard**: Navigate to the dashboard to see available features
+3. **Open Canvas Editor**: Go to the Surface Editor to start designing
+4. **Explore Components**: Use the component library to add elements
+5. **Customize**: Use the properties panel to modify component settings
+
+#### Project Structure
+
+```
+src/
+├── app/                 # Next.js App Router pages
+├── components/          # React components
+│   └── dashboard/       # Dashboard-specific components
+│       └── canvas/      # Canvas editor components
+├── lib/                 # Utility functions
+├── db/                  # Database schema and connection
+└── hooks/               # Custom React hooks
+```
+
+#### Next Steps
+
+- Learn about [Components](/docs/components)
+- Explore the [API Reference](/docs/api)
+- Check out [Examples](/docs/examples)

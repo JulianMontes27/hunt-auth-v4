@@ -1,0 +1,175 @@
+# API Reference
+
+Complete reference for the Qmatic Canvas API and component interfaces.
+
+#### Canvas Context API
+
+The canvas uses React Context for state management.
+
+### CanvasComponent Interface
+
+```typescript
+type CanvasComponent = {
+  id: string;
+  type: "button" | "text" | "input" | "image";
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  properties: Record<string, any>;
+};
+```
+
+#### Canvas State
+
+```typescript
+type CanvasState = {
+  components: CanvasComponent[];
+  selectedComponent: string | null;
+  canvasWidth: number;
+  canvasHeight: number;
+  viewportWidth: number;
+  viewportHeight: number;
+  zoom: number;
+  panX: number;
+  panY: number;
+  canvasBackgroundColor: string;
+  history: CanvasComponent[][];
+  historyIndex: number;
+};
+```
+
+## Canvas Actions
+
+#### Component Management
+
+- `ADD_COMPONENT`: Add a new component to the canvas
+- `UPDATE_COMPONENT`: Update component properties
+- `DELETE_COMPONENT`: Remove a component
+- `SELECT_COMPONENT`: Select a component for editing
+- `MOVE_COMPONENT`: Change component position
+
+#### Canvas Operations
+
+- `SET_CANVAS_SIZE`: Update canvas dimensions
+- `SET_ZOOM`: Change zoom level
+- `SET_PAN`: Update pan position
+- `SET_BACKGROUND_COLOR`: Change canvas background
+
+#### History Management
+
+- `SAVE_TO_HISTORY`: Save current state to history
+- `UNDO`: Revert to previous state
+- `REDO`: Move forward in history
+
+## Authentication API
+
+#### User Management
+
+```typescript
+// Get current user session
+const { data: session } = useSession();
+
+// Sign in with provider
+await signIn.social({
+  provider: "google" | "github",
+});
+
+// Sign out
+await signOut();
+```
+
+#### Database Schema
+
+#### User Table
+
+```sql
+CREATE TABLE user (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  email_verified BOOLEAN NOT NULL,
+  image TEXT,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL,
+  is_anonymous BOOLEAN DEFAULT false
+);
+```
+
+#### Session Table
+
+```sql
+CREATE TABLE session (
+  id TEXT PRIMARY KEY,
+  expires_at TIMESTAMP NOT NULL,
+  token TEXT UNIQUE NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL,
+  ip_address TEXT,
+  user_agent TEXT,
+  user_id TEXT NOT NULL REFERENCES user(id) ON DELETE CASCADE
+);
+```
+
+## Utility Functions
+
+#### Theme Utilities
+
+```typescript
+import { useTheme } from "next-themes";
+
+const { theme, resolvedTheme, setTheme } = useTheme();
+```
+
+#### Canvas Utilities
+
+```typescript
+// Generate unique component ID
+function generateComponentId(): string;
+
+// Calculate component bounds
+function getComponentBounds(component: CanvasComponent): DOMRect;
+
+// Convert canvas coordinates to screen coordinates
+function canvasToScreen(x: number, y: number): { x: number; y: number };
+```
+
+## Event Handlers
+
+#### Drag and Drop
+
+```typescript
+interface DragHandler {
+  onDragStart: (e: DragEvent, componentType: string) => void;
+  onDragOver: (e: DragEvent) => void;
+  onDrop: (e: DragEvent) => void;
+}
+```
+
+#### Canvas Interactions
+
+```typescript
+interface CanvasEvents {
+  onComponentClick: (componentId: string) => void;
+  onCanvasClick: (e: MouseEvent) => void;
+  onComponentMove: (componentId: string, x: number, y: number) => void;
+  onComponentResize: (
+    componentId: string,
+    width: number,
+    height: number
+  ) => void;
+}
+```
+
+## Error Handling
+
+#### Common Error Types
+
+- `COMPONENT_NOT_FOUND`: Component ID not found in state
+- `INVALID_POSITION`: Component position outside canvas bounds
+- `HISTORY_LIMIT_EXCEEDED`: Too many history states stored
+- `AUTH_ERROR`: Authentication failure
+
+#### Error Recovery
+
+The application includes error boundaries and fallback UI for graceful error handling.
