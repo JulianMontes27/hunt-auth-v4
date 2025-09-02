@@ -40,18 +40,27 @@ export default async function DashboardPage() {
     redirect("/sign-in");
   }
   return (
-    <div className="container mx-auto px-6 md:px-0 pb-8 ">
-      <main className="flex-1 p-0 md:p-6 pt-0">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+      <main className="flex-1 p-0 pt-4">
         <Tabs defaultValue="overview">
-          <div className="flex items-center justify-between">
-            <TabsList className="">
-              <TabsTrigger value="overview" className="text-[#7A7A7A]">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+            <TabsList className="w-full sm:w-auto">
+              <TabsTrigger
+                value="overview"
+                className="text-[#7A7A7A] flex-1 sm:flex-none"
+              >
                 Resumen
               </TabsTrigger>
-              <TabsTrigger value="analytics" className="text-[#7A7A7A]">
+              <TabsTrigger
+                value="analytics"
+                className="text-[#7A7A7A] flex-1 sm:flex-none"
+              >
                 Analíticas
               </TabsTrigger>
-              <TabsTrigger value="reports" className="text-[#7A7A7A]">
+              <TabsTrigger
+                value="reports"
+                className="text-[#7A7A7A] flex-1 sm:flex-none"
+              >
                 Reportes
               </TabsTrigger>
             </TabsList>
@@ -59,15 +68,16 @@ export default async function DashboardPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className="h-8 bg-[#242424] border border-[#424242] text-[#7A7A7A] hover:bg-[#1d1d1d] hover:border-[#424242] hover:text-[#7A7A7A] cursor-pointer"
+                className="h-8 bg-[#242424] border border-[#424242] text-[#7A7A7A] hover:bg-[#1d1d1d] hover:border-[#424242] hover:text-[#7A7A7A] cursor-pointer w-full sm:w-auto"
               >
                 <Download className="mr-2 h-4 w-4" />
-                Descargar
+                <span className="hidden xs:inline">Descargar</span>
+                <span className="xs:hidden">Descargar</span>
               </Button>
             </div>
           </div>
-          <TabsContent value="overview" className="space-y-4 pt-4">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <TabsContent value="overview" className="space-y-4 pt-0">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
               <Card className="shadow-none">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-[#A0A0A0]">
@@ -76,7 +86,7 @@ export default async function DashboardPage() {
                   <DollarSign className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-[#7A7A7A]">
+                  <div className="text-xl sm:text-2xl font-bold text-[#7A7A7A] break-words">
                     $45,231.89
                   </div>
                   <p className="text-xs text-muted-foreground">
@@ -92,7 +102,9 @@ export default async function DashboardPage() {
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-[#7A7A7A]">+2350</div>
+                  <div className="text-xl sm:text-2xl font-bold text-[#7A7A7A]">
+                    +2350
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     +180.1% desde el mes pasado
                   </p>
@@ -106,7 +118,7 @@ export default async function DashboardPage() {
                   <CreditCard className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-[#7A7A7A]">
+                  <div className="text-xl sm:text-2xl font-bold text-[#7A7A7A]">
                     +12,234
                   </div>
                   <p className="text-xs text-muted-foreground">
@@ -122,14 +134,16 @@ export default async function DashboardPage() {
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-[#7A7A7A]">+573</div>
+                  <div className="text-xl sm:text-2xl font-bold text-[#7A7A7A]">
+                    +573
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     +201 desde la última hora
                   </p>
                 </CardContent>
               </Card>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-7">
               <Card className="lg:col-span-4 shadow-none">
                 <CardHeader>
                   <CardTitle className="font-medium text-[#A0A0A0]">
@@ -140,7 +154,7 @@ export default async function DashboardPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="text-[#7A7A7A]">
-                  <p>
+                  <p className="text-sm sm:text-base">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     Repudiandae omnis possimus fugiat qui voluptate ratione
                     consequuntur necessitatibus ipsum suscipit optio?
@@ -157,7 +171,7 @@ export default async function DashboardPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="text-[#7A7A7A]">
-                  <p>
+                  <p className="text-sm sm:text-base">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     Repudiandae omnis possimus fugiat qui voluptate ratione
                     consequuntur necessitatibus ipsum suscipit optio?
@@ -166,16 +180,19 @@ export default async function DashboardPage() {
                 <CardFooter>
                   <Button
                     variant="outline"
-                    className="w-full bg-[#242424] border border-[#424242] text-[#7A7A7A] hover:bg-[#1d1d1d] hover:border-[#424242] hover:text-[#7A7A7A] cursor-pointer"
+                    className="w-full bg-[#242424] border border-[#424242] text-[#7A7A7A] hover:bg-[#1d1d1d] hover:border-[#424242] hover:text-[#7A7A7A] cursor-pointer text-sm"
                   >
-                    Ver Todos los Pedidos
+                    <span className="hidden sm:inline">
+                      Ver Todos los Pedidos
+                    </span>
+                    <span className="sm:hidden">Ver Pedidos</span>
                   </Button>
                 </CardFooter>
               </Card>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-7">
               <Card className="lg:col-span-4 shadow-none">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
                   <div>
                     <CardTitle className="font-medium text-[#A0A0A0]">
                       Resumen de Rendimiento
@@ -188,18 +205,19 @@ export default async function DashboardPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="bg-[#242424] border border-[#424242] text-[#7A7A7A]"
+                      className="bg-[#242424] border border-[#424242] text-[#7A7A7A] w-full sm:w-auto"
                     >
                       <Calendar className="mr-2 h-4 w-4" />
-                      Últimos 30 días
+                      <span className="hidden sm:inline">Últimos 30 días</span>
+                      <span className="sm:hidden">30d</span>
                     </Button>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-[300px] w-full rounded-md border border-dashed border-[#424242] bg-[#242424] flex items-center justify-center">
-                    <div className="flex flex-col items-center text-center">
-                      <BarChart3 className="h-10 w-10 text-muted-foreground mb-2" />
-                      <p className="text-sm text-muted-foreground">
+                  <div className="h-[250px] sm:h-[300px] w-full rounded-md border border-dashed border-[#424242] bg-[#242424] flex items-center justify-center">
+                    <div className="flex flex-col items-center text-center px-4">
+                      <BarChart3 className="h-8 w-8 sm:h-10 sm:w-10 text-muted-foreground mb-2" />
+                      <p className="text-xs sm:text-sm text-muted-foreground">
                         Visualización del gráfico de rendimiento
                       </p>
                     </div>
@@ -220,43 +238,43 @@ export default async function DashboardPage() {
                     {[
                       {
                         icon: Users,
-                        color: "text-blue-500",
-                        bg: "bg-blue-100",
+                        color: "text-blue-400",
+                        bg: "bg-blue-500/10",
                         title: "Nuevo miembro se unió al equipo",
                         time: "hace 2 horas",
                       },
                       {
                         icon: CreditCard,
-                        color: "text-green-500",
-                        bg: "bg-green-100",
+                        color: "text-green-400",
+                        bg: "bg-green-500/10",
                         title: "Pago de suscripción exitoso",
                         time: "hace 5 horas",
                       },
                       {
                         icon: ShoppingCart,
-                        color: "text-yellow-500",
-                        bg: "bg-yellow-100",
+                        color: "text-yellow-400",
+                        bg: "bg-yellow-500/10",
                         title: "Nuevo pedido recibido",
                         time: "hace 1 día",
                       },
                       {
                         icon: Package,
-                        color: "text-red-500",
-                        bg: "bg-red-100",
+                        color: "text-red-400",
+                        bg: "bg-red-500/10",
                         title: "Producto agotado",
                         time: "hace 2 días",
                       },
                     ].map((notification, i) => (
-                      <div key={i} className="flex items-start gap-4">
+                      <div key={i} className="flex items-start gap-3">
                         <div
-                          className={`flex h-9 w-9 items-center justify-center rounded-full ${notification.bg}`}
+                          className={`flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full ${notification.bg} flex-shrink-0`}
                         >
                           <notification.icon
-                            className={`h-4 w-4 ${notification.color}`}
+                            className={`h-3 w-3 sm:h-4 sm:w-4 ${notification.color}`}
                           />
                         </div>
-                        <div className="flex-1 space-y-1">
-                          <p className="text-sm font-medium leading-none text-[#7A7A7A]">
+                        <div className="flex-1 space-y-1 min-w-0">
+                          <p className="text-xs sm:text-sm font-medium leading-none text-[#7A7A7A] break-words">
                             {notification.title}
                           </p>
                           <p className="text-xs text-muted-foreground">
@@ -273,7 +291,7 @@ export default async function DashboardPage() {
             {/* Passkey Security Section */}
             <PasskeyCard />
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               <Card className="shadow-none">
                 <CardHeader>
                   <CardTitle className="font-medium text-[#A0A0A0]">
@@ -284,7 +302,7 @@ export default async function DashboardPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3">
                     {[
                       { icon: Users, label: "Agregar Usuario" },
                       { icon: Package, label: "Nuevo Producto" },
@@ -294,10 +312,12 @@ export default async function DashboardPage() {
                       <Button
                         key={i}
                         variant="outline"
-                        className="h-20 flex-col bg-[#242424] border border-[#424242] text-[#7A7A7A] hover:bg-[#1d1d1d] hover:border-[#424242] hover:text-[#7A7A7A] cursor-pointer"
+                        className="h-16 sm:h-20 flex-col bg-[#242424] border border-[#424242] text-[#7A7A7A] hover:bg-[#1d1d1d] hover:border-[#424242] hover:text-[#7A7A7A] cursor-pointer text-xs sm:text-sm"
                       >
-                        <action.icon className="mb-2 h-5 w-5" />
-                        {action.label}
+                        <action.icon className="mb-1 sm:mb-2 h-4 w-4 sm:h-5 sm:w-5" />
+                        <span className="text-center leading-tight">
+                          {action.label}
+                        </span>
                       </Button>
                     ))}
                   </div>
@@ -314,7 +334,7 @@ export default async function DashboardPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {[
                       {
                         title: "Reunión de equipo",
@@ -337,17 +357,17 @@ export default async function DashboardPage() {
                         completed: true,
                       },
                     ].map((task, i) => (
-                      <div key={i} className="flex items-center gap-2">
+                      <div key={i} className="flex items-center gap-3">
                         <div
-                          className={`h-5 w-5 rounded-full border ${task.completed ? "bg-primary border-primary" : "border-muted-foreground"} flex items-center justify-center`}
+                          className={`h-4 w-4 sm:h-5 sm:w-5 rounded-full border flex-shrink-0 ${task.completed ? "bg-primary border-primary" : "border-muted-foreground"} flex items-center justify-center`}
                         >
                           {task.completed && (
-                            <div className="h-2 w-2 rounded-full bg-white" />
+                            <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-white" />
                           )}
                         </div>
-                        <div className="flex-1">
+                        <div className="flex-1 min-w-0">
                           <p
-                            className={`text-sm font-medium ${task.completed ? "line-through text-muted-foreground" : "text-[#7A7A7A]"}`}
+                            className={`text-xs sm:text-sm font-medium break-words ${task.completed ? "line-through text-muted-foreground" : "text-[#7A7A7A]"}`}
                           >
                             {task.title}
                           </p>
@@ -371,7 +391,7 @@ export default async function DashboardPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {[
                       {
                         user: "Alex",
@@ -394,12 +414,12 @@ export default async function DashboardPage() {
                         time: "Ayer",
                       },
                     ].map((activity, i) => (
-                      <div key={i} className="flex items-start gap-4">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                      <div key={i} className="flex items-start gap-3">
+                        <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary flex-shrink-0">
                           {activity.user.charAt(0)}
                         </div>
-                        <div className="flex-1 space-y-1">
-                          <p className="text-sm">
+                        <div className="flex-1 space-y-1 min-w-0">
+                          <p className="text-xs sm:text-sm break-words">
                             <span className="font-medium text-[#7A7A7A]">
                               {activity.user}
                             </span>{" "}
@@ -416,7 +436,7 @@ export default async function DashboardPage() {
               </Card>
             </div>
           </TabsContent>
-          <TabsContent value="analytics" className="space-y-4 pt-4">
+          <TabsContent value="analytics" className="space-y-4 pt-0">
             <Card className="shadow-none">
               <CardHeader>
                 <CardTitle>Analíticas</CardTitle>
@@ -425,21 +445,25 @@ export default async function DashboardPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[400px] w-full rounded-md border border-dashed flex items-center justify-center text-muted-foreground">
-                  Los gráficos de analíticas aparecerán aquí
+                <div className="h-[300px] sm:h-[400px] w-full rounded-md border border-dashed flex items-center justify-center text-muted-foreground">
+                  <p className="text-center px-4 text-sm sm:text-base">
+                    Los gráficos de analíticas aparecerán aquí
+                  </p>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
-          <TabsContent value="reports" className="space-y-4 pt-4">
-            <Card className="">
+          <TabsContent value="reports" className="space-y-4 pt-0">
+            <Card className="shadow-none">
               <CardHeader>
                 <CardTitle>Reportes</CardTitle>
                 <CardDescription>Ve y descarga tus reportes.</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[400px] w-full rounded-md border border-dashed flex items-center justify-center text-muted-foreground">
-                  Los reportes aparecerán aquí
+                <div className="h-[300px] sm:h-[400px] w-full rounded-md border border-dashed flex items-center justify-center text-muted-foreground">
+                  <p className="text-center px-4 text-sm sm:text-base">
+                    Los reportes aparecerán aquí
+                  </p>
                 </div>
               </CardContent>
             </Card>
