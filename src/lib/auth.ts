@@ -42,7 +42,7 @@ export const auth = betterAuth({
   },
 
   // The trustedOrigins config in Better Auth handles security validation but doesn't set the necessary HTTP headers (Access-Control-Allow-Origin, etc.) that browsers require for cross-origin JavaScript requests. This is why authentication works (browser redirects don't need CORS) but the client app can't make API calls to check session status or refresh tokens.
-  
+
   // Better Auth ensures CSRF protection by validating the Origin header in requests. This check confirms that requests originate from the application or a trusted source. If a request comes from an untrusted origin, it is blocked to prevent potential CSRF attacks. By default, the origin matching the base URL is trusted, but you can set a list of trusted origins in the trustedOrigins configuration option.
   // Trusted origins prevent CSRF attacks and block open redirects. You can set a list of trusted origins in the trustedOrigins configuration option. Requests from origins not on this list are automatically blocked.
   trustedOrigins: [
@@ -52,6 +52,7 @@ export const auth = betterAuth({
     // "http://192.168.1.100:3000",
     "http://localhost:3000",
     "http://localhost:3001",
+    "https://hunt-auth-v4.onrender.com", // Add your Render URL
 
     "https://*.hunt-tickets.com", // Trust only HTTPS subdomains of example.com
     // "http://*.dev.example.com", // Trust all HTTP subdomains of dev.example.com
