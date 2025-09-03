@@ -61,7 +61,7 @@ export const TopBar = () => {
               <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => router.push("/dashboard/profile")}
+                onClick={() => router.push("/dashboard")}
               >
                 Perfil
               </DropdownMenuItem>

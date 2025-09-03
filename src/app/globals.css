@@ -129,7 +129,7 @@
   --text-inverse: #0a0a0a;
   
   /* Interactive States */
-  --interactive-primary: #ffffff;
+  --interactive-primary: #2a2a2a;
   --interactive-secondary: #202020;
   --interactive-hover: #2a2a2a;
   --interactive-active: #404040;
