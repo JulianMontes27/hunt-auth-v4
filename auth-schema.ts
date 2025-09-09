@@ -15,8 +15,8 @@ export const user = pgTable("user", {
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
   isAnonymous: boolean("is_anonymous"),
-  phoneNumber: text("phonenumber").unique(),
-  phoneNumberVerified: boolean("phonenumberverified"),
+  phoneNumber: text("phone_number").unique(),
+  phoneNumberVerified: boolean("phone_number_verified"),
 });
 
 export const session = pgTable("session", {
