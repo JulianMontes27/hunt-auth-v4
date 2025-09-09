@@ -170,12 +170,12 @@ export default async function ProfilePage() {
                       Número de Teléfono
                     </label>
                     <div className="flex items-center gap-2 mt-1 min-w-0">
-                      {user.phonenumber ? (
+                      {user.phoneNumber ? (
                         <>
                           <p className="text-[#7A7A7A] break-all">
-                            {user.phonenumber}
+                            {user.phoneNumber}
                           </p>
-                          {user.phonenumberverified && (
+                          {user.phoneNumberVerified && (
                             <Badge
                               variant="secondary"
                               className="bg-green-100 text-green-800 text-xs flex-shrink-0"
@@ -258,8 +258,8 @@ export default async function ProfilePage() {
           </CardHeader>
           <CardContent>
             <PhoneVerificationManager
-              phoneNumber={user.phonenumber}
-              phoneNumberVerified={user.phonenumberverified ?? false}
+              phoneNumber={user.phoneNumber}
+              phoneNumberVerified={user.phoneNumberVerified ?? false}
             />
           </CardContent>
         </Card>

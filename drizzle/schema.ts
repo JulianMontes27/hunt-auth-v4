@@ -90,7 +90,6 @@ export const user = pgTable("user", {
 	createdAt: timestamp("created_at", { mode: 'string' }).notNull(),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).notNull(),
 	isAnonymous: boolean("is_anonymous"),
-	prefix: text(),
 }, (table) => [
 	unique("user_email_unique").on(table.email),
 	unique("user_phonenumber_unique").on(table.phonenumber),

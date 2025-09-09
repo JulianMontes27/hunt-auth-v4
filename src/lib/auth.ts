@@ -170,8 +170,8 @@ export const auth = betterAuth({
                 .from(schema.user)
                 .where(
                   and(
-                    eq(schema.user.phonenumber, phoneNumber),
-                    eq(schema.user.phonenumberverified, true)
+                    eq(schema.user.phoneNumber, phoneNumber),
+                    eq(schema.user.phoneNumberVerified, true)
                   )
                 )
                 .limit(1);

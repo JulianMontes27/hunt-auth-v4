@@ -1,11 +1,11 @@
 import {
   pgTable,
-  foreignKey,
+  // foreignKey,
+  // unique,
   text,
   timestamp,
   integer,
   boolean,
-  unique,
   pgEnum,
 } from "drizzle-orm/pg-core";
 // import { sql } from "drizzle-orm";
@@ -95,106 +95,72 @@ export const ticketTriggerType = pgEnum("ticket_trigger_type", [
   "manually",
 ]);
 
-export const account = pgTable(
-  "account",
-  {
-    id: text().primaryKey().notNull(),
-    accountId: text("account_id").notNull(),
-    providerId: text("provider_id").notNull(),
-    userId: text("user_id").notNull(),
-    accessToken: text("access_token"),
-    refreshToken: text("refresh_token"),
-    idToken: text("id_token"),
-    accessTokenExpiresAt: timestamp("access_token_expires_at"),
-    refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
-    scope: text(),
-    password: text(),
-    createdAt: timestamp("created_at").notNull(),
-    updatedAt: timestamp("updated_at").notNull(),
-  },
-  (table) => [
-    foreignKey({
-      columns: [table.userId],
-      foreignColumns: [user.id],
-      name: "account_user_id_user_id_fk",
-    }).onDelete("cascade"),
-  ]
-);
+export const user = pgTable("user", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull().unique(),
+  emailVerified: boolean("email_verified").notNull(),
+  image: text("image"),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+  isAnonymous: boolean("is_anonymous"),
+  phoneNumber: text("phone_number").unique(),
+  phoneNumberVerified: boolean("phone_number_verified"),
+});
 
-export const passkey = pgTable(
-  "passkey",
-  {
-    id: text().primaryKey().notNull(),
-    name: text(),
-    publicKey: text("public_key").notNull(),
-    userId: text("user_id").notNull(),
-    credentialID: text("credential_i_d").notNull(),
-    counter: integer().notNull(),
-    deviceType: text("device_type").notNull(),
-    backedUp: boolean("backed_up").notNull(),
-    transports: text(),
-    createdAt: timestamp("created_at").notNull(),
-    aaguid: text(),
-  },
-  (table) => [
-    foreignKey({
-      columns: [table.userId],
-      foreignColumns: [user.id],
-      name: "passkey_user_id_user_id_fk",
-    }).onDelete("cascade"),
-  ]
-);
+export const session = pgTable("session", {
+  id: text("id").primaryKey(),
+  expiresAt: timestamp("expires_at").notNull(),
+  token: text("token").notNull().unique(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+});
 
-export const session = pgTable(
-  "session",
-  {
-    id: text().primaryKey().notNull(),
-    expiresAt: timestamp("expires_at").notNull(),
-    token: text().notNull(),
-    createdAt: timestamp("created_at").notNull(),
-    updatedAt: timestamp("updated_at").notNull(),
-    ipAddress: text("ip_address"),
-    userAgent: text("user_agent"),
-    userId: text("user_id").notNull(),
-  },
-  (table) => [
-    foreignKey({
-      columns: [table.userId],
-      foreignColumns: [user.id],
-      name: "session_user_id_user_id_fk",
-    }).onDelete("cascade"),
-    unique("session_token_unique").on(table.token),
-  ]
-);
-
-export const user = pgTable(
-  "user",
-  {
-    id: text().primaryKey().notNull(),
-    name: text().notNull(),
-    email: text().notNull(),
-    emailVerified: boolean("email_verified").notNull(),
-    image: text(),
-    phonenumber: text(),
-    phonenumberverified: boolean().default(false),
-    createdAt: timestamp("created_at").notNull(),
-    updatedAt: timestamp("updated_at").notNull(),
-    isAnonymous: boolean("is_anonymous"),
-    prefix: text(),
-  },
-  (table) => [
-    unique("user_email_unique").on(table.email),
-    unique("user_phonenumber_unique").on(table.phonenumber),
-  ]
-);
+export const account = pgTable("account", {
+  id: text("id").primaryKey(),
+  accountId: text("account_id").notNull(),
+  providerId: text("provider_id").notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  accessToken: text("access_token"),
+  refreshToken: text("refresh_token"),
+  idToken: text("id_token"),
+  accessTokenExpiresAt: timestamp("access_token_expires_at"),
+  refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
+  scope: text("scope"),
+  password: text("password"),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});
 
 export const verification = pgTable("verification", {
-  id: text().primaryKey().notNull(),
-  identifier: text().notNull(),
-  value: text().notNull(),
+  id: text("id").primaryKey(),
+  identifier: text("identifier").notNull(),
+  value: text("value").notNull(),
   expiresAt: timestamp("expires_at").notNull(),
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
+});
+
+export const passkey = pgTable("passkey", {
+  id: text("id").primaryKey(),
+  name: text("name"),
+  publicKey: text("public_key").notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  credentialID: text("credential_i_d").notNull(),
+  counter: integer("counter").notNull(),
+  deviceType: text("device_type").notNull(),
+  backedUp: boolean("backed_up").notNull(),
+  transports: text("transports"),
+  createdAt: timestamp("created_at"),
 });
 
 export const schema = { user, session, account, verification, passkey };
