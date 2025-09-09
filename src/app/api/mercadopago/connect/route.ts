@@ -28,9 +28,13 @@ export async function GET(request: NextRequest) {
       throw new Error("No access token received from MercadoPago");
     }
 
-    // Extract MercadoPago user ID from access token
-    // Format: "APP_USR-{user_id}-{timestamp}-{hash}-{app_id}"
-    const processorAccountId = credentials.access_token.split("-")[1]; // "1470075971272873"
+    // Use the user_id directly from credentials response
+    // The user_id field contains the actual MercadoPago user ID
+    const processorAccountId = credentials.user_id?.toString() || credentials.access_token.split("-").pop() || "";
+    
+    if (!processorAccountId) {
+      throw new Error("Could not extract MercadoPago user ID");
+    }
 
     // Insert into payment_processor_account table
     await db.insert(paymentProcessorAccount).values({
