@@ -94,6 +94,15 @@ export const ticketTriggerType = pgEnum("ticket_trigger_type", [
   "automatic",
   "manually",
 ]);
+export const paymentProcessorType = pgEnum("payment_processor_type", [
+  "stripe",
+  "mercadopago",
+]);
+export const paymentProcessorStatus = pgEnum("payment_processor_status", [
+  "active",
+  "inactive",
+  "suspended",
+]);
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -163,4 +172,21 @@ export const passkey = pgTable("passkey", {
   createdAt: timestamp("created_at"),
 });
 
-export const schema = { user, session, account, verification, passkey };
+export const paymentProcessorAccount = pgTable("payment_processor_account", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  processorType: paymentProcessorType("processor_type").notNull(),
+  processorAccountId: text("processor_account_id").notNull(),
+  accessToken: text("access_token").notNull(),
+  refreshToken: text("refresh_token"),
+  tokenExpiresAt: timestamp("token_expires_at"),
+  scope: text("scope"),
+  status: paymentProcessorStatus("status").notNull().default("active"),
+  metadata: text("metadata"),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});
+
+export const schema = { user, session, account, verification, passkey, paymentProcessorAccount };
