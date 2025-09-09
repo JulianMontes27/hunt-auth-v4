@@ -19,8 +19,9 @@ type User = {
   email: string;
   emailVerified: boolean;
   image: string | null;
-  phoneNumber: string | null;
-  phoneNumberVerified: boolean | null;
+  phonenumber: string | null;
+  phonenumberverified: boolean | null;
+  prefix: string | null;
   createdAt: Date;
   updatedAt: Date;
   isAnonymous: boolean | null;

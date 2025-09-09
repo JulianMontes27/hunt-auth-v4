@@ -11,7 +11,10 @@ const getTwilioClient = () =>
   twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 // Simple in-memory store for OTP codes (in production, use Redis or database)
-const otpStore = new Map<string, { code: string, expires: number, userId: string }>();
+const otpStore = new Map<
+  string,
+  { code: string; expires: number; userId: string }
+>();
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,36 +26,36 @@ export async function POST(request: NextRequest) {
       const existingUser = await db
         .select()
         .from(schema.user)
-        .where(eq(schema.user.phoneNumber, phoneNumber))
+        .where(eq(schema.user.phonenumber, phoneNumber))
         .limit(1);
-      
+
       // If checkVerified is requested, also check verification status
       if (checkVerified && existingUser.length > 0) {
-        return NextResponse.json({ 
+        return NextResponse.json({
           exists: true,
-          isVerified: existingUser[0].phoneNumberVerified || false,
-          message: existingUser[0].phoneNumberVerified ? 
-            "Phone number already verified by another account" : 
-            "Phone number exists but not verified"
+          isVerified: existingUser[0].phonenumberverified || false,
+          message: existingUser[0].phonenumberverified
+            ? "Phone number already verified by another account"
+            : "Phone number exists but not verified",
         });
       }
-      
-      return NextResponse.json({ 
+
+      return NextResponse.json({
         exists: existingUser.length > 0,
-        message: existingUser.length > 0 ? "Phone number already registered" : "Phone number available"
+        message:
+          existingUser.length > 0
+            ? "Phone number already registered"
+            : "Phone number available",
       });
     }
 
     // Get current user session for other actions
     const session = await auth.api.getSession({
-      headers: await headers()
+      headers: await headers(),
     });
 
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     if (action === "send") {
@@ -63,7 +66,7 @@ export async function POST(request: NextRequest) {
         .where(eq(schema.user.id, session.user.id))
         .limit(1);
 
-      if (!user[0] || user[0].phoneNumber !== phoneNumber) {
+      if (!user[0] || user[0].phonenumber !== phoneNumber) {
         return NextResponse.json(
           { error: "Phone number not found or doesn't belong to user" },
           { status: 400 }
@@ -75,10 +78,10 @@ export async function POST(request: NextRequest) {
       const expires = Date.now() + 5 * 60 * 1000; // 5 minutes
 
       // Store OTP
-      otpStore.set(`${session.user.id}:${phoneNumber}`, { 
-        code: otpCode, 
-        expires, 
-        userId: session.user.id 
+      otpStore.set(`${session.user.id}:${phoneNumber}`, {
+        code: otpCode,
+        expires,
+        userId: session.user.id,
       });
 
       // Send SMS
@@ -97,11 +100,10 @@ export async function POST(request: NextRequest) {
       }
 
       return NextResponse.json({ success: true });
-    } 
-    else if (action === "verify") {
+    } else if (action === "verify") {
       // Verify the OTP code
       const stored = otpStore.get(`${session.user.id}:${phoneNumber}`);
-      
+
       if (!stored) {
         return NextResponse.json(
           { error: "No verification code found" },
@@ -127,24 +129,23 @@ export async function POST(request: NextRequest) {
       // OTP is valid, update user's phone verification status
       await db
         .update(schema.user)
-        .set({ 
-          phoneNumberVerified: true,
-          updatedAt: new Date()
+        .set({
+          phonenumberverified: true,
+          updatedAt: new Date(),
         })
         .where(eq(schema.user.id, session.user.id));
 
       // Clean up the OTP
       otpStore.delete(`${session.user.id}:${phoneNumber}`);
 
-      console.log(`✅ Phone ${phoneNumber} verified for user ${session.user.id}`);
-      
+      console.log(
+        `✅ Phone ${phoneNumber} verified for user ${session.user.id}`
+      );
+
       return NextResponse.json({ success: true });
     }
 
-    return NextResponse.json(
-      { error: "Invalid action" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid action" }, { status: 400 });
   } catch (error) {
     console.error("Phone verification error:", error);
     return NextResponse.json(

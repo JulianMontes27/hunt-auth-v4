@@ -8,7 +8,7 @@ import {
   unique,
   pgEnum,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
+// import { sql } from "drizzle-orm";
 
 export const accountTypeEnum = pgEnum("account_type_enum", [
   "savings",
