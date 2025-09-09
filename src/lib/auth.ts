@@ -54,6 +54,7 @@ export const auth = betterAuth({
     "http://localhost:3001",
     "https://hunt-auth-v4.onrender.com", // Add your Render URL
     "https://vckfkj31-3000.use2.devtunnels.ms", // Your current devtunnel
+    "https://1srdv3v4-3000.use2.devtunnels.ms",
 
     "https://*.hunt-tickets.com", // Trust only HTTPS subdomains of example.com
     // "http://*.dev.example.com", // Trust all HTTP subdomains of dev.example.com
