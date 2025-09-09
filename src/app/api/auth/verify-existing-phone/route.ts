@@ -26,15 +26,15 @@ export async function POST(request: NextRequest) {
       const existingUser = await db
         .select()
         .from(schema.user)
-        .where(eq(schema.user.phonenumber, phoneNumber))
+        .where(eq(schema.user.phoneNumber, phoneNumber))
         .limit(1);
 
       // If checkVerified is requested, also check verification status
       if (checkVerified && existingUser.length > 0) {
         return NextResponse.json({
           exists: true,
-          isVerified: existingUser[0].phonenumberverified || false,
-          message: existingUser[0].phonenumberverified
+          isVerified: existingUser[0].phoneNumberVerified || false,
+          message: existingUser[0].phoneNumberVerified
             ? "Phone number already verified by another account"
             : "Phone number exists but not verified",
         });
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
         .where(eq(schema.user.id, session.user.id))
         .limit(1);
 
-      if (!user[0] || user[0].phonenumber !== phoneNumber) {
+      if (!user[0] || user[0].phoneNumber !== phoneNumber) {
         return NextResponse.json(
           { error: "Phone number not found or doesn't belong to user" },
           { status: 400 }
@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
       await db
         .update(schema.user)
         .set({
-          phonenumberverified: true,
+          phoneNumberVerified: true,
           updatedAt: new Date(),
         })
         .where(eq(schema.user.id, session.user.id));
