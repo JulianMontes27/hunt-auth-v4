@@ -1,77 +1,105 @@
 import { Breadcrumbs } from "@/components/dashboard/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { PasskeyManager } from "@/components/dashboard/PasskeyManager";
+import { Button } from "@/components/ui/button";
 import { PhoneVerificationManager } from "@/components/dashboard/PhoneVerificationManager";
+// import { PasskeyManager } from "@/components/dashboard/PasskeyManager";
 import { db } from "@/db/drizzle";
 import {
   user as userSchema,
   session as sessionSchema,
   account as accountSchema,
   passkey as passkeySchema,
+  paymentProcessorAccount as paymentProcessorAccountSchema,
 } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { eq } from "drizzle-orm";
-import { User, Mail, Shield, Key, Clock, MapPin, Phone } from "lucide-react";
+import {
+  User,
+  Mail,
+  Shield,
+  Key,
+  Clock,
+  MapPin,
+  Phone,
+  CreditCard,
+} from "lucide-react";
+import Link from "next/link";
 import CustomizableAvatar from "@/components/dashboard/CustomizableAvatar";
+import { redirect } from "next/navigation";
+import api from "@/lib/mp-api";
+
+// Queremos que esta página sea dinámica para saber el estado del marketplace
+export const dynamic = "force-dynamic";
 
 async function getUserData() {
+  // Check for auth
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-
   if (!session?.user?.id) {
-    return null;
+    return redirect("/sign-in");
   }
 
-  const userData = await db
-    .select()
-    .from(userSchema)
-    .where(eq(userSchema.id, session.user.id))
-    .limit(1);
+  // Execute all queries in parallel for better performance
+  // getUserData function optimization:
+  // Changed from 4 sequential database queries to parallel execution using Promise.all
+  // Reduced database round-trips from ~4 to 1 concurrent batch
+  // Added payment processor accounts query
+  const [
+    userData,
+    userSessions,
+    userAccounts,
+    userPasskeys,
+    paymentProcessorAccounts,
+  ] = await Promise.all([
+    db
+      .select()
+      .from(userSchema)
+      .where(eq(userSchema.id, session.user.id))
+      .limit(1),
 
-  const userSessions = await db
-    .select()
-    .from(sessionSchema)
-    .where(eq(sessionSchema.userId, session.user.id))
-    .orderBy(sessionSchema.createdAt);
+    db
+      .select()
+      .from(sessionSchema)
+      .where(eq(sessionSchema.userId, session.user.id))
+      .orderBy(sessionSchema.createdAt),
 
-  const userAccounts = await db
-    .select()
-    .from(accountSchema)
-    .where(eq(accountSchema.userId, session.user.id));
+    db
+      .select()
+      .from(accountSchema)
+      .where(eq(accountSchema.userId, session.user.id)),
 
-  const userPasskeys = await db
-    .select()
-    .from(passkeySchema)
-    .where(eq(passkeySchema.userId, session.user.id))
-    .orderBy(passkeySchema.createdAt);
+    db
+      .select()
+      .from(passkeySchema)
+      .where(eq(passkeySchema.userId, session.user.id))
+      .orderBy(passkeySchema.createdAt),
+
+    db
+      .select()
+      .from(paymentProcessorAccountSchema)
+      .where(eq(paymentProcessorAccountSchema.userId, session.user.id))
+      .orderBy(paymentProcessorAccountSchema.createdAt),
+  ]);
 
   return {
     user: userData[0] || null,
     sessions: userSessions,
     accounts: userAccounts,
     passkeys: userPasskeys,
+    paymentProcessorAccounts,
   };
 }
 
 export default async function ProfilePage() {
   const data = await getUserData();
+  const { user, sessions, accounts, passkeys, paymentProcessorAccounts } = data;
 
-  if (!data?.user) {
-    return (
-      <div className="container mx-auto px-6 pb-8 pt-8">
-        <Card className="shadow-none">
-          <CardContent className="p-8 text-center">
-            <p className="text-[#7A7A7A]">Inicia sesion para poder acceder.</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  // Obtenemos la URL de autorización
+  const authorizationUrl = await api.user.authorize();
 
-  const { user, sessions, accounts, passkeys } = data;
   const breadcrumbItems = [
     { label: "Panel", href: "/dashboard" },
     { label: "Perfil", href: "/dashboard" },
@@ -248,6 +276,114 @@ export default async function ProfilePage() {
           </CardContent>
         </Card>
 
+        {/* Payment Processor Accounts */}
+        <Card className="shadow-none">
+          <CardHeader>
+            <CardTitle className="font-medium text-[#A0A0A0] flex items-center gap-2">
+              <CreditCard className="h-5 w-5" />
+              Procesadores de Pago ({paymentProcessorAccounts.length})
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {paymentProcessorAccounts.length > 0 ? (
+              <div className="space-y-3">
+                {paymentProcessorAccounts.map((processorAccount) => (
+                  <div
+                    key={processorAccount.id}
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 rounded-lg border border-[#424242] bg-[#242424] gap-3"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="h-8 w-8 rounded bg-[#1d1d1d] flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs font-medium text-[#7A7A7A]">
+                          {processorAccount.processorType === "stripe"
+                            ? "S"
+                            : "MP"}
+                        </span>
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <p className="font-medium text-[#7A7A7A] capitalize">
+                            {processorAccount.processorType}
+                          </p>
+                          <Badge
+                            variant={
+                              processorAccount.status === "active"
+                                ? "default"
+                                : "secondary"
+                            }
+                            className={
+                              processorAccount.status === "active"
+                                ? "bg-green-100 text-green-800 text-xs"
+                                : processorAccount.status === "suspended"
+                                  ? "bg-red-100 text-red-800 text-xs"
+                                  : "bg-gray-100 text-gray-800 text-xs"
+                            }
+                          >
+                            {processorAccount.status === "active"
+                              ? "Activo"
+                              : processorAccount.status === "suspended"
+                                ? "Suspendido"
+                                : "Inactivo"}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground break-all">
+                          ID: {processorAccount.processorAccountId}
+                        </p>
+                        {processorAccount.tokenExpiresAt && (
+                          <p className="text-xs text-muted-foreground">
+                            Token expira:{" "}
+                            {new Date(
+                              processorAccount.tokenExpiresAt
+                            ).toLocaleDateString("es-ES")}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-left sm:text-right flex-shrink-0">
+                      <p className="text-sm text-muted-foreground">
+                        Conectado{" "}
+                        {new Date(
+                          processorAccount.createdAt
+                        ).toLocaleDateString("es-ES")}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Actualizado{" "}
+                        {new Date(
+                          processorAccount.updatedAt
+                        ).toLocaleDateString("es-ES")}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <CreditCard className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <p className="text-[#7A7A7A] mb-2">
+                  No hay procesadores de pago conectados
+                </p>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Conecta Stripe o MercadoPago para comenzar a recibir pagos
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Link href={authorizationUrl}>
+                    <Button className="bg-[#009EE3] hover:bg-[#0088CC] text-white">
+                      <CreditCard className="h-4 w-4 mr-2" />
+                      Conectar MercadoPago
+                    </Button>
+                  </Link>
+                  <Link href="/dashboard/stripe/connect">
+                    <Button variant="outline" className="border-[#6772E5] text-[#6772E5] hover:bg-[#6772E5] hover:text-white">
+                      <CreditCard className="h-4 w-4 mr-2" />
+                      Conectar Stripe
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
         {/* Phone Number Verification */}
         <Card className="shadow-none">
           <CardHeader>
@@ -273,7 +409,7 @@ export default async function ProfilePage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <PasskeyManager initialPasskeys={passkeys} />
+            {/* <PasskeyManager initialPasskeys={passkeys} /> */}
           </CardContent>
         </Card>
 

@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
-// import { NextRequest } from "next/server";
 import { headers } from "next/headers";
+// import { NextRequest } from "next/server";
 
 /* Endpoint to validate Better-Auth Sessions */
 export async function GET() {
