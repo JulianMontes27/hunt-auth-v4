@@ -1,6 +1,6 @@
 import { Payment } from "mercadopago";
 import { revalidatePath } from "next/cache";
-import api, { mercadopago } from "@/lib/mp-api";
+import { mercadopago } from "@/lib/mp-api";
 
 export async function POST(request: Request) {
   // Obtenemos el cuerpo de la petición que incluye información sobre la notificación
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   // Si se aprueba, agregamos el mensaje
   if (payment.status === "approved") {
     // Obtenemos los datos
-    await api.message.add({ id: payment.id!, text: payment.metadata.text });
+    // await api.message.add({ id: payment.id!, text: payment.metadata.text });
 
     // Revalidamos la página de inicio para mostrar los datos actualizados
     revalidatePath("/");
